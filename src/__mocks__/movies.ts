@@ -35,3 +35,8 @@ export const movieTwo = {
 };
 
 export const moviesList = [movieOne, movieTwo];
+
+export const moviesResp = {
+    page: 1,
+    results: moviesList
+};

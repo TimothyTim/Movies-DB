@@ -5,7 +5,7 @@ import { App } from '../App';
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import {moviesList} from "../__mocks__/movies";
+import {moviesResp} from "../__mocks__/movies";
 
 // https://api.themoviedb.org/3/search/movie?api_key=01bfc5e83ec9b72845761f48aec9715a&language=en-US&query=anchor&page=1&include_adult=false
 const handlers = [
@@ -13,7 +13,7 @@ const handlers = [
         // const query = req.url.searchParams;
         // const id = query.get("id");
 
-        return res(ctx.json(moviesList));
+        return res(ctx.json(moviesResp));
     })
 ];
 
@@ -32,10 +32,10 @@ describe("App", () => {
     afterEach(() => server.resetHandlers());
     afterAll(() => server.close());
 
-    test("renders successfully", () => {
+    test("renders header successfully", () => {
         renderFn();
 
-        expect(screen.getByText("app")).toBeInTheDocument();
+        expect(screen.getByText("Movies")).toBeInTheDocument();
     });
 
     test("renders list of movies returned by the api", async () => {
@@ -43,9 +43,9 @@ describe("App", () => {
 
         await waitFor(() => screen.getByText(/Top Gun/));
 
-        const movies = screen.getAllByRole('li');
+        const movies = screen.getAllByTestId("movie-element");
 
-        expect(movies.length).toEqual(moviesList.length)
+        expect(movies.length).toEqual(moviesResp.results.length)
     });
 
     test.todo("shows loading when awaiting movies search response from the api");

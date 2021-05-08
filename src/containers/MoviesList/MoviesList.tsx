@@ -51,7 +51,7 @@ export const MoviesList: FunctionComponent = () => {
             return (
                 <ul>
                     {movies.length > 0 && movies.map((movieData) => (
-                        <li key={movieData.id}>
+                        <li key={movieData.id} data-testid="movie-element">
                             <Movie movieData={movieData} />
                         </li>
                     ))}
@@ -63,18 +63,28 @@ export const MoviesList: FunctionComponent = () => {
     }
 
     useEffect(() => {
+        let isCancelled = false;
+
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${nameQuery}&page=${page}&include_adult=false`)
             .then((resp) => {
                 return resp.json();
             })
             .then((respJson) => {
-                setMovies(respJson.results);
-                console.log(respJson);
-                setRequestStatus(RequestStatus.SUCCESS);
+                if (!isCancelled) {
+                    setRequestStatus(RequestStatus.SUCCESS);
+                    setMovies(respJson.results);
+                }
             })
             .catch(() => {
-                setRequestStatus(RequestStatus.FAILED);
+                if (!isCancelled) {
+                    setRequestStatus(RequestStatus.FAILED);
+                }
             });
+
+        return () => {
+            setRequestStatus(RequestStatus.IDLE);
+            isCancelled = true;
+        };
     }, []);
 
     return (
