@@ -3,7 +3,11 @@ import React, {
     useState,
     useEffect,
 } from "react";
+import {
+    useHistory
+} from "react-router-dom";
 import { RequestStatus } from "../../constants";
+import { useQuery } from "../../hooks/useQuery";
 
 import { Movie } from "../../components/Movie/Movie";
 
@@ -31,10 +35,12 @@ export interface IMovie {
 };
 
 export const MoviesList: FunctionComponent = () => {
+    const history = useHistory();
     const [requestStatus, setRequestStatus] = useState(RequestStatus.IDLE);
     const [movies, setMovies] = useState<Array<IMovie>>([]);
-    const [nameQuery, setNameQuery] = useState<string>("top+gun");
     const [page, setPage] = useState<number>(1);
+
+    const {s = ""} = useQuery();
 
     const drawMoviesList = () => {
         if (requestStatus === RequestStatus.LOADING) {
@@ -59,13 +65,26 @@ export const MoviesList: FunctionComponent = () => {
             );
         }
 
-        return (<h3>Idle</h3>);
+        return (<h3>No Movies Listed</h3>);
+    }
+
+    const changeSearchInput = (e) => {
+        const { currentTarget } = e;
+
+        history.push({
+            search: `s=${currentTarget.value}`
+        });
     }
 
     useEffect(() => {
-        let isCancelled = false;
+        if (!s?.length) {
+            return;
+        }
 
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${nameQuery}&page=${page}&include_adult=false`)
+        let isCancelled = false;
+        setRequestStatus(RequestStatus.LOADING);
+
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${s}&page=${page}&include_adult=false`)
             .then((resp) => {
                 return resp.json();
             })
@@ -85,10 +104,17 @@ export const MoviesList: FunctionComponent = () => {
             setRequestStatus(RequestStatus.IDLE);
             isCancelled = true;
         };
-    }, []);
+    }, [s]);
 
     return (
         <div className={classPrefix}>
+            <input
+                className={`${classPrefix}__search`}
+                data-testid="search"
+                placeholder="Search Movies"
+                defaultValue={s as string}
+                onChange={changeSearchInput}
+            />
             {drawMoviesList()}
         </div>
     );

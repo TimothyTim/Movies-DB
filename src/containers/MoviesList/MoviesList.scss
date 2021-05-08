@@ -1,4 +1,8 @@
 
 .mdb-movies-list {
     font-size: $spacing;
+
+    &__search {
+        margin-bottom: 1rem;
+    }
 }
