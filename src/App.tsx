@@ -12,7 +12,7 @@ export const App: FunctionComponent = () => {
         <div className={classPrefix}>
             <header className={`${classPrefix}__header`}>
                 <Container>
-                    Movies
+                    <h2>Movies</h2>
                 </Container>
             </header>
 
