@@ -36,6 +36,7 @@
         "babel-loader": "^8.2.2",
         "babel-plugin-const-enum": "^1.0.1",
         "babel-preset-const-enum": "^1.0.0",
+        "classnames": "^2.3.1",
         "clean-webpack-plugin": "^4.0.0-alpha.0",
         "compression-webpack-plugin": "^7.1.2",
         "css-loader": "^5.2.4",

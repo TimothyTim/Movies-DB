@@ -1,9 +1,26 @@
 import React, { FunctionComponent } from "react";
 
-import "./scss/index.scss";
+import { MoviesList } from "./containers/MoviesList/MoviesList";
+import { Container } from "./components/Container/Container";
+
+import "./App.scss";
 
 const classPrefix = "mdb-app";
 
 export const App: FunctionComponent = () => {
-    return <div className={classPrefix}>app</div>;
+    return (
+        <div className={classPrefix}>
+            <header className={`${classPrefix}__header`}>
+                <Container>
+                    Movies
+                </Container>
+            </header>
+
+            <div className={`${classPrefix}__content`}>
+                <Container maxWidth="md">
+                    <MoviesList />
+                </Container>
+            </div>
+        </div>
+    );
 };

@@ -48,6 +48,8 @@ describe("App", () => {
         expect(movies.length).toEqual(moviesList.length)
     });
 
+    test.todo("shows loading when awaiting movies search response from the api");
+
     test.todo("renders the movie name");
 
     test.todo("changes the page when the pagination buttons are pressed");
