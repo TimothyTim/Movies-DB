@@ -1,5 +1,7 @@
 # Movies DB
 
+First add your Movies DB Api key to `env.config.ts`
+
 Run the following to install project dependencies:
 
 ```

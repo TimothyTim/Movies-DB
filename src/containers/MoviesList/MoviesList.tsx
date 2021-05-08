@@ -12,12 +12,11 @@ import qs from 'query-string';
 
 import { Movie } from "../../components/Movie/Movie";
 import { Pagination } from "../../components/Pagination/Pagination";
+import { API_KEY } from "../../../env.config";
 
 import "./MoviesList.scss";
 
 const classPrefix = "mdb-movies-list";
-
-const API_KEY = "01bfc5e83ec9b72845761f48aec9715a";
 
 export interface IMovie {
     adult: boolean,
@@ -43,7 +42,7 @@ export const MoviesList: FunctionComponent = () => {
     const query = useQuery();
     const {s = "", page = 1} = query;
 
-    const showPagination = !!s?.length && movies.length > 0;
+    const showPagination = !!s?.length && !!movies?.length;
 
     const drawMoviesList = () => {
         if (requestStatus === RequestStatus.LOADING) {
