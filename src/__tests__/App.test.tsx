@@ -32,13 +32,13 @@ describe("App", () => {
     afterEach(() => server.resetHandlers());
     afterAll(() => server.close());
 
-    it("renders successfully", () => {
+    test("renders successfully", () => {
         renderFn();
 
         expect(screen.getByText("app")).toBeInTheDocument();
     });
 
-    it("renders list of movies returned by the api", async () => {
+    test("renders list of movies returned by the api", async () => {
         renderFn();
 
         await waitFor(() => screen.getByText(/Top Gun/));
@@ -48,7 +48,7 @@ describe("App", () => {
         expect(movies.length).toEqual(moviesList.length)
     });
 
-    it("renders the movie name");
+    test.todo("renders the movie name");
 
-    it("changes the page when the pagination buttons are pressed");
+    test.todo("changes the page when the pagination buttons are pressed");
 });
