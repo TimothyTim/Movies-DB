@@ -10,7 +10,8 @@ import {moviesResp} from "../__mocks__/movies";
 
 jest.mock("../hooks/useQuery", () => ({
     useQuery: () => ({
-        s: "Top+Gun"
+        s: "Top+Gun",
+        page: "1"
     })
 }));
 
@@ -65,4 +66,14 @@ test("renders a search box", async () => {
     const inputEl = screen.getByTestId("search");
 
     expect(inputEl).toBeInTheDocument();
+});
+
+test("renders a pagination container", async () => {
+    renderFn();
+
+    await waitFor(() => screen.getByText(/Top Gun/));
+
+    const paginationEl = screen.getByTestId("pagination");
+
+    expect(paginationEl).toBeInTheDocument();
 });

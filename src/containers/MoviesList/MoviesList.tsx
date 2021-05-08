@@ -8,8 +8,10 @@ import {
 } from "react-router-dom";
 import { RequestStatus } from "../../constants";
 import { useQuery } from "../../hooks/useQuery";
+import qs from 'query-string';
 
 import { Movie } from "../../components/Movie/Movie";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 import "./MoviesList.scss";
 
@@ -38,9 +40,10 @@ export const MoviesList: FunctionComponent = () => {
     const history = useHistory();
     const [requestStatus, setRequestStatus] = useState(RequestStatus.IDLE);
     const [movies, setMovies] = useState<Array<IMovie>>([]);
-    const [page, setPage] = useState<number>(1);
+    const query = useQuery();
+    const {s = "", page = 1} = query;
 
-    const {s = ""} = useQuery();
+    const showPagination = !!s?.length && movies.length > 0;
 
     const drawMoviesList = () => {
         if (requestStatus === RequestStatus.LOADING) {
@@ -71,8 +74,20 @@ export const MoviesList: FunctionComponent = () => {
     const changeSearchInput = (e) => {
         const { currentTarget } = e;
 
+        setPage(1);
+
         history.push({
-            search: `s=${currentTarget.value}`
+            search: qs.stringify(Object.assign(query, {
+                s: currentTarget.value,
+            }))
+        });
+    }
+
+    const setPage = (newPage) => {
+        history.push({
+            search: qs.stringify(Object.assign(query, {
+                page: newPage
+            }))
         });
     }
 
@@ -104,7 +119,7 @@ export const MoviesList: FunctionComponent = () => {
             setRequestStatus(RequestStatus.IDLE);
             isCancelled = true;
         };
-    }, [s]);
+    }, [s, page]);
 
     return (
         <div className={classPrefix}>
@@ -116,6 +131,7 @@ export const MoviesList: FunctionComponent = () => {
                 onChange={changeSearchInput}
             />
             {drawMoviesList()}
+            {showPagination && <Pagination setPage={setPage} page={page} />}
         </div>
     );
 };
