@@ -130,7 +130,7 @@ export const MoviesList: FunctionComponent = () => {
                 onChange={changeSearchInput}
             />
             {drawMoviesList()}
-            {showPagination && <Pagination setPage={setPage} page={page} />}
+            {showPagination && <Pagination setPage={setPage} page={Number(page)} />}
         </div>
     );
 };

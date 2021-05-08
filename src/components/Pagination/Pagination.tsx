@@ -22,11 +22,11 @@ export const Pagination: FunctionComponent<IPaginationProps> = ({
         <div className={classPrefix} data-testid="pagination">
             <span className={`${classPrefix}__page-num`}>{`Page: ${page}`}</span>
 
-            <button className={`${classPrefix}__button`} onClick={() => setPage(Number(page)-1)}>
+            <button className={`${classPrefix}__button`} onClick={() => setPage(page-1)}>
                 {"<"}
             </button>
 
-            <button className={`${classPrefix}__button`} onClick={() => setPage(Number(page)+1)}>
+            <button className={`${classPrefix}__button`} onClick={() => setPage(page+1)}>
                 {">"}
             </button>
         </div>
